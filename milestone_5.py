@@ -10,61 +10,55 @@ class Hangman:
         self.list_of_guesses = []  #Initialise the list of guesses as an empty list
 
     def check_guess(self, guess):
-        #Convert the guess into lowercase
-        guess = guess.lower()
-        #Check if the guess is in the word
-        if guess in self.word:
-            print("-" * 30)
-            print(f"Good guess! {guess} is in the word.")
-            #Update the word_guessed list with the guessed letter
-            for idx, letter in enumerate(self.word):
+        guess = guess.lower() #Convert the guess into lowercase
+        if guess in self.word: #Check if the guess is in the word
+            print("-" * 30) #Print -'s to enhance readability
+            print(f"Good guess! {guess} is in the word.") #Print encouragement
+            for idx, letter in enumerate(self.word): #Update the word_guessed list with the guessed letter - Enumerate means that the letters are revealed in the correct positions. Using "str.replace" sometimes breaks.
                 if letter == guess:
                     self.word_guessed[idx] = guess
             self.num_letters -= 1  #Reduce the count of remaining unique letters
         else:
-            print("-" * 30)
+            print("-" * 30) #Print -'s to enhance readability
             print(f"Sorry, {guess} is not in the word. Try again.")
             self.num_lives -= 1  #Decrease the number of lives
-            print(f"Lives: {self.num_lives}")
-        print(f"Current word: {''.join(self.word_guessed)}")
+            print(f"Lives: {self.num_lives}") #Print lives remaining so that the user doesn't need to keep track themselves
+        print(f"Current word: {''.join(self.word_guessed)}") #Print visual
 
     def ask_for_input(self):
         while True:
-            #Ask for input
-            print("-" * 30)
-            guess = input("Guess a letter: ")
-            #Check if the input is valid
-            if len(guess) == 1 and guess.isalpha():
-                if guess in self.list_of_guesses:
-                    print("-" * 30)
-                    print("You already tried that letter.")
+            print("-" * 30) #Print -'s to enhance readability
+            guess = input("Guess a letter: ") #Ask for a letter input
+            if len(guess) == 1 and guess.isalpha(): #Check if the input is valid
+                if guess in self.list_of_guesses: #Check if already guessed
+                    print("-" * 30) #Print -'s to enhance readability
+                    print("You already tried that letter.") #Sometimes I forget what letters I've already guessed
                 else:
-                    self.list_of_guesses.append(guess)
-                    self.check_guess(guess)  #Call to validate the guess
+                    self.list_of_guesses.append(guess) #Add to list of guessed
+                    self.check_guess(guess) #Call to validate the guess
                     break
             else:
-                print("-" * 30)
-                print("Invalid letter. Please, enter a single alphabetical character.")
+                print("-" * 30) #Print -'s to enhance readability
+                print("Invalid letter. Please, enter a single alphabetical character.") #For any non-letters
 
-def play_game(word_list):
-    num_lives = 5
-    game = Hangman(word_list, num_lives)
-    print(f"Word to guess: {''.join(game.word_guessed)}")
-    print(f"Number of unique letters: {game.num_letters}")
-    print(f"Lives: {game.num_lives}")
+def play_game(word_list): #Game functions
+    num_lives = 5 
+    game = Hangman(word_list, num_lives) 
+    print(f"Word to guess: {''.join(game.word_guessed)}") #Print visual for user to guess against
+    print(f"Number of unique letters: {game.num_letters}") #Print how many letters
+    print(f"Lives: {game.num_lives}") #Print for clear limit
     
     while True:
-        #Check number of lives
-        if game.num_lives == 0:
-            print("-" * 30)
-            print("You lost!")
-            break
+        if game.num_lives == 0: #Check number of lives
+            print("-" * 30) #Print -'s to enhance readability
+            print("You lost!") #Print Game Over
+            break #Game Over
         elif game.num_letters > 0:
-            game.ask_for_input()  #Ask for input
+            game.ask_for_input() #Ask for input
         else:
-            print("-" * 30)
-            print("Congrats. You won the game!")
-            break
+            print("-" * 30) #Print -'s to enhance readability
+            print("Congrats. You won the game!") #Print Game Won
+            break #Game Over
 
-word_list = ['Kiwi', 'Apple', 'Pineapple', 'Tomato', 'Grapes']
-play_game(word_list)
+word_list = ['kiwi', 'apple', 'pineapple', 'tomato', 'grapes'] #Tamatoes are a lot easier to cook with than these others
+play_game(word_list) #Initiate Game
